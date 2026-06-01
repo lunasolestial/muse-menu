@@ -21,6 +21,7 @@ export interface Database {
         }
         Insert: Omit<Database['public']['Tables']['users']['Row'], 'id' | 'created_at'>
         Update: Partial<Database['public']['Tables']['users']['Insert']>
+        Relationships: []
       }
       memberships: {
         Row: {
@@ -31,9 +32,11 @@ export interface Database {
           start_date: string | null
           end_date: string | null
           notes: string | null
+          created_at: string
         }
         Insert: Omit<Database['public']['Tables']['memberships']['Row'], 'id'>
         Update: Partial<Database['public']['Tables']['memberships']['Insert']>
+        Relationships: []
       }
       member_profiles: {
         Row: {
@@ -50,9 +53,11 @@ export interface Database {
           conversation_preferences: string | null
           default_guest_name: string | null
           default_guest_notes: string | null
+          updated_at: string
         }
         Insert: Omit<Database['public']['Tables']['member_profiles']['Row'], 'id'>
         Update: Partial<Database['public']['Tables']['member_profiles']['Insert']>
+        Relationships: []
       }
       events: {
         Row: {
@@ -75,6 +80,7 @@ export interface Database {
         }
         Insert: Omit<Database['public']['Tables']['events']['Row'], 'id' | 'created_at'>
         Update: Partial<Database['public']['Tables']['events']['Insert']>
+        Relationships: []
       }
       rsvps: {
         Row: {
@@ -89,6 +95,20 @@ export interface Database {
         }
         Insert: Omit<Database['public']['Tables']['rsvps']['Row'], 'id' | 'created_at'>
         Update: Partial<Database['public']['Tables']['rsvps']['Insert']>
+        Relationships: []
+      }
+      guest_requests: {
+        Row: {
+          id: string
+          rsvp_id: string
+          guest_name: string
+          relationship_note: string | null
+          status: GuestRequestStatus
+          created_at: string
+        }
+        Insert: Omit<Database['public']['Tables']['guest_requests']['Row'], 'id' | 'created_at'>
+        Update: Partial<Database['public']['Tables']['guest_requests']['Insert']>
+        Relationships: []
       }
       archive_posts: {
         Row: {
@@ -101,11 +121,12 @@ export interface Database {
           gallery: Array<{ url: string; caption: string }>
           menu_highlights: Array<{ course: string; description: string }>
           muse_notes: string | null
-          published_at: string
+          published_at: string | null
           visibility: ArchiveVisibility
         }
         Insert: Omit<Database['public']['Tables']['archive_posts']['Row'], 'id'>
         Update: Partial<Database['public']['Tables']['archive_posts']['Insert']>
+        Relationships: []
       }
       partner_inquiries: {
         Row: {
@@ -121,6 +142,7 @@ export interface Database {
         }
         Insert: Omit<Database['public']['Tables']['partner_inquiries']['Row'], 'id' | 'created_at'>
         Update: Partial<Database['public']['Tables']['partner_inquiries']['Insert']>
+        Relationships: []
       }
       sponsor_inquiries: {
         Row: {
@@ -135,7 +157,22 @@ export interface Database {
         }
         Insert: Omit<Database['public']['Tables']['sponsor_inquiries']['Row'], 'id' | 'created_at'>
         Update: Partial<Database['public']['Tables']['sponsor_inquiries']['Insert']>
+        Relationships: []
       }
     }
+    Views: { [_ in never]: never }
+    Functions: { [_ in never]: never }
+    Enums: {
+      user_role: UserRole
+      membership_tier: MembershipTier
+      membership_status: MembershipStatus
+      event_visibility: EventVisibility
+      event_status: EventStatus
+      rsvp_status: RSVPStatus
+      partner_type: PartnerType
+      archive_visibility: ArchiveVisibility
+      guest_request_status: GuestRequestStatus
+    }
+    CompositeTypes: { [_ in never]: never }
   }
 }
