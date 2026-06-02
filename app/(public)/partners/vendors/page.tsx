@@ -2,6 +2,7 @@
 import { useState } from 'react'
 import { Input, Textarea, Select } from '@/components/ui/Input'
 import { submitPartnerInquiry } from '@/app/actions'
+import SubmissionOverlay from '@/components/ui/SubmissionOverlay'
 
 export default function VendorsPage() {
   const [state, setState] = useState<'idle' | 'loading' | 'success' | 'error'>('idle')
@@ -16,13 +17,12 @@ export default function VendorsPage() {
     setState('error')
   }
 
-  if (state === 'success') {
+  if (state === 'loading' || state === 'success') {
     return (
-      <div className="pt-32 pb-24 px-6 max-w-xl mx-auto text-center space-y-6">
-        <div className="w-px h-16 bg-antique-gold/30 mx-auto" />
-        <h1 className="font-serif text-headline text-bone font-light">Received.</h1>
-        <p className="text-body-sm text-ash">We'll review your work and reach out when there's a fit.</p>
-      </div>
+      <SubmissionOverlay
+        message={state === 'loading' ? 'Preparing your request.' : 'Your credentials have been received.'}
+        subtext={state === 'loading' ? 'One moment.' : "We'll be in touch when there is a fit."}
+      />
     )
   }
 
@@ -30,19 +30,17 @@ export default function VendorsPage() {
     <div className="pt-32 pb-24 px-6 md:px-10">
       <div className="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-20">
         <div>
-          <p className="text-caption tracking-widest uppercase text-antique-gold/50 mb-4">Vendor Partners</p>
+          <p className="text-caption tracking-widest uppercase text-antique-gold/40 mb-4">Maker Partners</p>
           <h1 className="font-serif text-display text-bone font-light leading-none mb-8">
-            One thing,<br /><em>exceptionally.</em>
+            One thing,<br /><em>uncommonly well.</em>
           </h1>
           <p className="text-body text-ash leading-relaxed mb-6">
-            {/* [TODO: refine with internal Muse & Menu copy] */}
-            We work with florists, photographers, ceramicists, musicians, scent designers,
-            and others who bring craft to the invisible elements of an evening.
+            We work with florists, photographers, ceramicists, musicians, and scent
+            designers — people who shape the invisible elements of an evening.
           </p>
           <p className="text-body text-ash leading-relaxed">
-            We are not looking for vendors. We are looking for collaborators
-            who understand that the best work in a room is often the work
-            that guests cannot quite name.
+            The best work in a room is often the work guests cannot quite name.
+            That is what we are looking for.
           </p>
         </div>
 

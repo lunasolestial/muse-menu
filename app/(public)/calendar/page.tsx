@@ -5,6 +5,7 @@ import type { Metadata } from 'next'
 import type { Database } from '@/lib/database.types'
 
 export const metadata: Metadata = { title: 'Calendar — Muse & Menu Society' }
+export const revalidate = 300
 
 type EventRow = Database['public']['Tables']['events']['Row']
 
@@ -41,7 +42,7 @@ export default async function CalendarPage() {
 
         <div className="flex items-end justify-between mb-16">
           <div>
-            <p className="text-caption tracking-widest uppercase text-antique-gold/50 mb-4">Calendar</p>
+            <p className="text-caption tracking-widest uppercase text-antique-gold/40 mb-4">Calendar</p>
             <h1 className="font-serif text-display text-bone font-light leading-none">
               Forthcoming<br /><em>gatherings.</em>
             </h1>
@@ -56,22 +57,26 @@ export default async function CalendarPage() {
         {/* Upcoming events */}
         <div className="space-y-3 mb-20">
           {upcoming.length === 0 && (
-            <div className="border border-antique-gold/10 p-10 text-center">
-              <p className="text-ash text-body-sm">No gatherings announced at this time.</p>
-              <p className="text-fog text-body-sm mt-1">Invitation windows are released to members first.</p>
+            <div className="border border-antique-gold/8 p-10 text-center">
+              <p className="font-serif italic text-bone font-light" style={{ fontSize: '1.05rem' }}>
+                The Society gathers quietly, and announces accordingly.
+              </p>
+              <p className="text-fog text-body-sm mt-3">
+                Members receive the calendar before it reaches this page.
+              </p>
             </div>
           )}
           {upcoming.map((event) => (
             <div
               key={event.id}
-              className="border border-antique-gold/10 p-6 grid grid-cols-1 md:grid-cols-[100px_1fr_auto] gap-4 md:gap-8 items-start hover:border-antique-gold/25 transition-colors"
+              className="border border-antique-gold/8 p-6 grid grid-cols-1 md:grid-cols-[100px_1fr_auto] gap-4 md:gap-8 items-start hover:border-antique-gold/25 transition-colors"
             >
               {/* Date */}
               <div>
                 <p className="font-serif text-2xl text-bone font-light">
                   {new Date(event.date).toLocaleDateString('en-US', { day: 'numeric' })}
                 </p>
-                <p className="text-caption text-antique-gold/50 tracking-widest uppercase">
+                <p className="text-caption text-antique-gold/40 tracking-widest uppercase">
                   {new Date(event.date).toLocaleDateString('en-US', { month: 'short', year: 'numeric' })}
                 </p>
               </div>
@@ -108,17 +113,17 @@ export default async function CalendarPage() {
 
         {/* Non-member prompt */}
         {!isMember && upcoming.length > 0 && (
-          <div className="border border-antique-gold/10 bg-midnight-plum/10 p-8 text-center mb-20">
+          <div className="border border-antique-gold/8 bg-midnight-plum/10 p-8 text-center mb-20">
             <p className="font-serif text-title text-bone font-light mb-3">
-              Members receive the full calendar.
+              The full calendar is held for members.
             </p>
             <p className="text-body-sm text-ash mb-6">
-              Theme titles, muse notes, locations, and invitation windows
-              are available to active members.
+              Theme titles, muse notes, and invitation windows are available
+              to active Society members.
             </p>
             <Link
               href="/membership"
-              className="inline-flex text-caption tracking-widest uppercase border border-antique-gold/30 text-bone px-8 py-3 hover:border-antique-gold/60 transition-all"
+              className="inline-flex text-caption tracking-widest uppercase border border-antique-gold/25 text-bone px-8 py-3 hover:border-antique-gold/55 transition-all"
             >
               Request consideration
             </Link>
@@ -128,7 +133,7 @@ export default async function CalendarPage() {
         {/* Past glimpses */}
         {past.length > 0 && (
           <div>
-            <p className="text-caption tracking-widest uppercase text-antique-gold/50 mb-6">Past Gatherings</p>
+            <p className="text-caption tracking-widest uppercase text-antique-gold/40 mb-6">Past Gatherings</p>
             <div className="space-y-2">
               {past.map((event) => (
                 <div key={event.id} className="flex items-center justify-between py-4 border-b border-antique-gold/8 last:border-0">

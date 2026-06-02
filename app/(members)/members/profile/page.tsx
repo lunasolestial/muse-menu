@@ -6,19 +6,22 @@ import { Input, Textarea, Select } from '@/components/ui/Input'
 
 export default function ProfilePage() {
   const supabase = createClient()
-  const [saved, setSaved]   = useState(false)
+  const [saved, setSaved]     = useState(false)
   const [loading, setLoading] = useState(false)
   const [profile, setProfile] = useState({
-    dietary_restrictions: '',
-    hard_nos: '',
-    favorite_flavors: '',
-    dislikes: '',
-    seating_preferences: '',
-    celebration_notes: '',
-    accessibility_needs: '',
+    dietary_restrictions:  '',
+    hard_nos:              '',
+    favorite_flavors:      '',
+    drink_preferences:     '',
+    seating_preferences:   '',
     conversation_preferences: '',
-    default_guest_name: '',
-    default_guest_notes: '',
+    general_notes:         '',
+    preferred_near:        '',
+    avoid_near:            '',
+    celebration_notes:     '',
+    accessibility_needs:   '',
+    default_guest_name:    '',
+    default_guest_notes:   '',
   })
 
   useEffect(() => {
@@ -49,40 +52,117 @@ export default function ProfilePage() {
       title: 'At the table',
       subtitle: 'How you eat, what you love, what we should know.',
       fields: [
-        { key: 'dietary_restrictions', label: 'Dietary restrictions & allergies', type: 'textarea', placeholder: 'Any allergies, intolerances, or dietary needs' },
-        { key: 'hard_nos', label: 'Hard nos', type: 'textarea', placeholder: 'Ingredients or foods you will never eat' },
-        { key: 'favorite_flavors', label: 'Favorite flavors & ingredients', type: 'textarea', placeholder: 'What excites you on a menu?' },
-        { key: 'dislikes', label: 'Dislikes', type: 'textarea', placeholder: "What you'd rather not encounter (but not hard nos)" },
+        {
+          key: 'dietary_restrictions',
+          label: 'Dietary restrictions + allergies',
+          type: 'textarea',
+          placeholder: 'Any allergies, intolerances, or dietary needs',
+        },
+        {
+          key: 'hard_nos',
+          label: 'Foods I avoid',
+          type: 'textarea',
+          placeholder: 'Ingredients or foods you will not eat',
+        },
+        {
+          key: 'favorite_flavors',
+          label: 'Flavors that excite you',
+          type: 'textarea',
+          placeholder: 'What you love to encounter on a menu',
+        },
+        {
+          key: 'drink_preferences',
+          label: 'Drink preferences',
+          type: 'select',
+          options: [
+            { value: '',             label: 'No preference' },
+            { value: 'spirit_wine',  label: 'Spirit + wine' },
+            { value: 'wine_only',    label: 'Wine only' },
+            { value: 'non_alcohol',  label: 'Non-alcoholic' },
+          ],
+        },
       ],
     },
     {
       title: 'The room',
-      subtitle: 'How we seat and consider you.',
+      subtitle: 'How we seat and compose the evening around you.',
       fields: [
-        { key: 'seating_preferences', label: 'Seating preference', type: 'select', options: [
-          { value: '', label: 'No preference' },
-          { value: 'quiet_corner', label: 'Quiet corner — I prefer less foot traffic' },
-          { value: 'social', label: 'Social — I want to be in the middle of things' },
-          { value: 'new_faces', label: 'New faces — seat me near people I don\'t know' },
-          { value: 'familiar', label: 'Familiar — I prefer known company' },
-        ]},
-        { key: 'conversation_preferences', label: 'Conversation preferences', type: 'textarea', placeholder: 'Topics you love, topics you\'d rather not be introduced to' },
+        {
+          key: 'seating_preferences',
+          label: 'Seating preference',
+          type: 'select',
+          options: [
+            { value: '',        label: 'No preference' },
+            { value: 'quiet',   label: 'Quiet — I prefer less foot traffic' },
+            { value: 'balanced', label: 'Balanced — somewhere in the middle' },
+            { value: 'lively',  label: 'Lively — seat me in the energy' },
+          ],
+        },
+        {
+          key: 'conversation_preferences',
+          label: 'Conversation comfort',
+          type: 'select',
+          options: [
+            { value: '',       label: 'No preference' },
+            { value: 'low',    label: 'Low — I prefer quiet connection' },
+            { value: 'medium', label: 'Medium — open and unhurried' },
+            { value: 'high',   label: 'High — I love a live room' },
+          ],
+        },
+        {
+          key: 'general_notes',
+          label: 'Notes we should know',
+          type: 'textarea',
+          placeholder: 'Anything else that would help us compose your evening',
+        },
+        {
+          key: 'preferred_near',
+          label: "Who you'd love to be seated near",
+          type: 'textarea',
+          placeholder: 'Names handled with discretion (optional)',
+        },
+        {
+          key: 'avoid_near',
+          label: 'Who we should avoid seating together',
+          type: 'textarea',
+          placeholder: 'For your comfort or safety (optional)',
+        },
       ],
     },
     {
       title: 'Moments',
       subtitle: 'So we can acknowledge what matters.',
       fields: [
-        { key: 'celebration_notes', label: 'Celebration notes', type: 'textarea', placeholder: 'Birthdays, anniversaries, milestones we should know about' },
-        { key: 'accessibility_needs', label: 'Accessibility needs', type: 'textarea', placeholder: 'Anything that would make your evening more comfortable' },
+        {
+          key: 'celebration_notes',
+          label: 'Celebration notes',
+          type: 'textarea',
+          placeholder: 'Birthdays, anniversaries, milestones we should know about',
+        },
+        {
+          key: 'accessibility_needs',
+          label: 'Accessibility needs',
+          type: 'textarea',
+          placeholder: 'Anything that would make your evening more comfortable',
+        },
       ],
     },
     {
       title: 'Your guest',
       subtitle: 'Default guest information, pre-filled for RSVPs.',
       fields: [
-        { key: 'default_guest_name', label: 'Default guest name', type: 'input', placeholder: 'Their full name' },
-        { key: 'default_guest_notes', label: 'Default guest notes', type: 'textarea', placeholder: 'Their dietary needs or anything we should know' },
+        {
+          key: 'default_guest_name',
+          label: 'Default guest name',
+          type: 'input',
+          placeholder: 'Their full name',
+        },
+        {
+          key: 'default_guest_notes',
+          label: 'Default guest notes',
+          type: 'textarea',
+          placeholder: 'Their dietary needs or anything we should know',
+        },
       ],
     },
   ]
@@ -153,7 +233,7 @@ export default function ProfilePage() {
             disabled={loading}
             className="border border-antique-gold/30 text-bone text-caption tracking-widest uppercase px-8 py-3 hover:border-antique-gold/60 transition-all disabled:opacity-40"
           >
-            {loading ? 'Saving…' : 'Save profile'}
+            {loading ? 'Saving…' : 'Save preferences'}
           </button>
           {saved && <span className="text-body-sm text-antique-gold/70 font-serif italic">Saved.</span>}
         </div>

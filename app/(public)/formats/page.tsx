@@ -1,97 +1,186 @@
 import Link from 'next/link'
 import type { Metadata } from 'next'
+import FadeUp from '@/components/motion/FadeUp'
+import { FORMATS, FLAGSHIP_FORMAT } from '@/lib/content/formats'
 
-export const metadata: Metadata = { title: 'Formats — Muse & Menu Society' }
+export const metadata: Metadata = {
+  title: 'Formats — Muse & Menu Society',
+  description: 'The table takes different forms. Three expressions of the Society, each built for a specific kind of evening.',
+}
 
-const FORMATS = [
-  {
-    name: 'The Salon Table',
-    seats: '8 guests',
-    cadence: 'Monthly',
-    character: 'Singular. Concentrated. Intimate.',
-    description: 'One chef. One muse. Eight seats. The Salon Table is the most intimate format — small enough that conversation crosses the full table, large enough that the evening has texture. The menu is composed around a single constraint. The room is chosen for silence and warmth.',
-    member_note: 'Salon Table evenings are released to Salon and Patron members first.',
-  },
-  {
-    name: 'The Muse Dinner',
-    seats: '16–20 guests',
-    cadence: 'Bi-monthly',
-    character: 'Composed. Full. Canonical.',
-    description: 'The signature format. The Muse Dinner is the full expression of the Society — a complete evening with a chef partner, a curated room, a full multi-course menu, and a full member table. This is where the season is set, where the muse is most fully realised.',
-    member_note: 'The Muse Dinner is open to all active members through the invitation release window.',
-  },
-  {
-    name: 'The Society Evening',
-    seats: 'By invitation',
-    cadence: 'Rare',
-    character: 'Private. Unrepeatable.',
-    description: 'Held for moments of particular significance — a chef residency, a seasonal milestone, a private convene for a small group with a specific affinity. The Society Evening is not announced; it is extended. Its character changes with the reason for its gathering.',
-    member_note: 'Society Evenings are extended by direct invitation to Patron members and select guests.',
-  },
-  {
-    name: 'The Partner Table',
-    seats: '10–14 guests',
-    cadence: 'Occasional',
-    character: 'Collaborative. Brand-woven. Curated.',
-    description: 'Convened in partnership with a brand or sponsor whose values align with the Society ethos — a winery, a ceramics maker, a fragrance house. The Partner Table is an evening shaped by that partnership, but hosted with the same compositional care as every other format.',
-    member_note: 'Partner Tables are open to members, with partner guest allocation at host discretion.',
-  },
-]
+const SANS = 'var(--font-dm-sans), system-ui, sans-serif'
 
 export default function FormatsPage() {
-  return (
-    <div className="pt-32 pb-24 px-6 md:px-10">
-      <div className="max-w-5xl mx-auto">
+  const flagship  = FLAGSHIP_FORMAT
+  const adjacent  = FORMATS.filter(f => f.tier !== 'flagship')
 
-        <div className="max-w-xl mb-20">
-          <p className="text-caption tracking-widest uppercase text-antique-gold/50 mb-4">Formats</p>
-          <h1 className="font-serif text-display text-bone font-light leading-none mb-8">
+  return (
+    <div className="pt-32 pb-24">
+
+      {/* Page header */}
+      <div className="px-6 md:px-10 max-w-4xl mx-auto mb-24">
+        <FadeUp>
+          <p style={{ fontFamily: SANS, fontSize: 9, letterSpacing: '0.26em', textTransform: 'uppercase', color: 'rgba(212,175,55,0.42)', marginBottom: 18 }}>
+            Formats
+          </p>
+          <h1
+            className="font-serif font-light text-bone"
+            style={{ fontSize: 'clamp(2.5rem, 6vw, 5rem)', lineHeight: 1.05, letterSpacing: '-0.02em', marginBottom: 28 }}
+          >
             The table takes<br />
             <em>different forms.</em>
           </h1>
-          <p className="text-body text-ash leading-relaxed">
-            {/* [TODO: refine with internal Muse & Menu copy] */}
-            Each format is chosen for what it can produce — a particular quality of
-            intimacy, a specific scale of experience. None are interchangeable.
+          <p style={{ fontFamily: SANS, fontSize: 15, lineHeight: 1.8, color: 'rgba(169,163,154,0.8)', maxWidth: 520 }}>
+            Each format exists for a reason. The scale, the intimacy, the kind of
+            evening that becomes possible — none are interchangeable.
           </p>
-        </div>
+        </FadeUp>
+      </div>
 
-        <div className="space-y-px">
-          {FORMATS.map((f, i) => (
-            <div key={f.name} className="grid grid-cols-1 md:grid-cols-[1fr_2fr] bg-ink border border-antique-gold/8 hover:border-antique-gold/20 transition-colors">
-              <div className="p-8 border-b md:border-b-0 md:border-r border-antique-gold/8">
-                <p className="text-caption text-antique-gold/40 tracking-widest uppercase mb-3">0{i + 1}</p>
-                <h2 className="font-serif text-title text-bone font-light mb-4">{f.name}</h2>
-                <dl className="space-y-1.5">
-                  {[['Seats', f.seats], ['Cadence', f.cadence]].map(([k, v]) => (
-                    <div key={k} className="flex items-baseline gap-2">
-                      <dt className="text-caption text-fog tracking-widest uppercase w-16 shrink-0">{k}</dt>
-                      <dd className="text-body-sm text-ash">{v}</dd>
+      {/* ── Flagship — ceremonial full-width treatment ─────────────────── */}
+      <section className="border-y border-antique-gold/8 bg-ink mb-0">
+        <div className="px-6 md:px-10 max-w-6xl mx-auto py-20">
+          <FadeUp>
+            <div className="grid grid-cols-1 md:grid-cols-[1fr_2fr] gap-16 items-start">
+              <div>
+                <p style={{ fontFamily: SANS, fontSize: 9, letterSpacing: '0.24em', textTransform: 'uppercase', color: 'rgba(212,175,55,0.42)', marginBottom: 12 }}>
+                  {flagship.num} — Flagship
+                </p>
+                <h2
+                  className="font-serif font-light text-bone"
+                  style={{ fontSize: 'clamp(1.8rem, 4vw, 3.6rem)', lineHeight: 1.1, letterSpacing: '-0.015em', marginBottom: 14 }}
+                >
+                  {flagship.name}
+                </h2>
+                <p style={{ fontFamily: SANS, fontSize: 9, letterSpacing: '0.22em', textTransform: 'uppercase', color: 'rgba(212,175,55,0.38)', fontStyle: 'italic', marginBottom: 28 }}>
+                  {flagship.subline}
+                </p>
+                <dl style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+                  {([
+                    ['Guests',  flagship.guests],
+                    ['Format',  flagship.format],
+                    ['Cadence', flagship.cadence],
+                    ['Access',  flagship.access],
+                  ] as [string, string][]).map(([k, v]) => (
+                    <div key={k} style={{ display: 'flex', gap: 12, alignItems: 'baseline' }}>
+                      <dt style={{ fontFamily: SANS, fontSize: 9, letterSpacing: '0.2em', textTransform: 'uppercase', color: 'rgba(127,122,115,0.55)', width: 68, flexShrink: 0 }}>{k}</dt>
+                      <dd style={{ fontFamily: SANS, fontSize: 13, color: 'rgba(169,163,154,0.8)' }}>{v}</dd>
                     </div>
                   ))}
                 </dl>
-                <p className="text-caption text-antique-gold/50 tracking-widest uppercase mt-4 italic">{f.character}</p>
               </div>
-              <div className="p-8 space-y-5">
-                <p className="text-body text-ash leading-relaxed">{f.description}</p>
-                <div className="border-t border-antique-gold/10 pt-4">
-                  <p className="text-body-sm text-fog italic">{f.member_note}</p>
+
+              <div style={{ display: 'flex', flexDirection: 'column', gap: 0 }}>
+                <p
+                  className="font-serif font-light text-bone"
+                  style={{ fontSize: 'clamp(1.2rem, 2.2vw, 1.9rem)', lineHeight: 1.35, marginBottom: 24 }}
+                >
+                  One chef. One muse. One evening that belongs entirely to the idea
+                  that called it into being.
+                </p>
+                <div style={{ width: 36, height: 1, background: 'rgba(212,175,55,0.2)', marginBottom: 24 }} />
+                <div style={{ display: 'flex', flexDirection: 'column', gap: 18 }}>
+                  {flagship.description.map((p, i) => (
+                    <p key={i} style={{ fontFamily: SANS, fontSize: 14, lineHeight: 1.78, color: 'rgba(169,163,154,0.8)' }}>
+                      {p}
+                    </p>
+                  ))}
                 </div>
+                {flagship.notes && flagship.notes.length > 0 && (
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: 16, marginTop: 24 }}>
+                    {flagship.notes.map((note, i) => (
+                      <div key={i}>
+                        <p style={{ fontFamily: SANS, fontSize: 9, letterSpacing: '0.2em', textTransform: 'uppercase', color: 'rgba(212,175,55,0.38)', marginBottom: 6 }}>
+                          {note.heading}
+                        </p>
+                        <p style={{ fontFamily: SANS, fontSize: 12, fontStyle: 'italic', color: 'rgba(127,122,115,0.6)', whiteSpace: 'pre-line' }}>
+                          {note.body}
+                        </p>
+                      </div>
+                    ))}
+                  </div>
+                )}
               </div>
             </div>
+          </FadeUp>
+        </div>
+      </section>
+
+      {/* ── Adjacent formats ──────────────────────────────────────────────── */}
+      <section className="px-6 md:px-10 max-w-6xl mx-auto py-20">
+        <FadeUp>
+          <p style={{ fontFamily: SANS, fontSize: 9, letterSpacing: '0.26em', textTransform: 'uppercase', color: 'rgba(212,175,55,0.42)', marginBottom: 48 }}>
+            Adjacent expressions
+          </p>
+        </FadeUp>
+
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
+          {adjacent.map((f, idx) => (
+            <FadeUp key={f.id} delay={idx * 0.06}>
+              <div
+                className="grid grid-cols-1 md:grid-cols-[1fr_2fr] format-card"
+                style={{ background: 'rgba(13,16,20,0.8)', border: '1px solid rgba(212,175,55,0.08)' }}
+              >
+                <div style={{ padding: '32px', borderBottom: '1px solid rgba(212,175,55,0.08)' }} className="md:border-b-0 md:border-r">
+                  <p style={{ fontFamily: SANS, fontSize: 9, letterSpacing: '0.22em', color: 'rgba(212,175,55,0.38)', marginBottom: 12 }}>{f.num}</p>
+                  <h2 className="font-serif font-light text-bone" style={{ fontSize: 'clamp(1.2rem, 2vw, 1.7rem)', lineHeight: 1.2, marginBottom: 20 }}>
+                    {f.name}
+                  </h2>
+                  <dl style={{ display: 'flex', flexDirection: 'column', gap: 8, marginBottom: 16 }}>
+                    {([
+                      ['Guests',  f.guests],
+                      ['Format',  f.format],
+                      ['Cadence', f.cadence],
+                      ['Access',  f.access],
+                    ] as [string, string][]).map(([k, v]) => (
+                      <div key={k} style={{ display: 'flex', gap: 10 }}>
+                        <dt style={{ fontFamily: SANS, fontSize: 9, letterSpacing: '0.18em', textTransform: 'uppercase', color: 'rgba(127,122,115,0.55)', width: 60 }}>{k}</dt>
+                        <dd style={{ fontFamily: SANS, fontSize: 13, color: 'rgba(169,163,154,0.75)' }}>{v}</dd>
+                      </div>
+                    ))}
+                  </dl>
+                  <p style={{ fontFamily: SANS, fontSize: 9, letterSpacing: '0.18em', textTransform: 'uppercase', color: 'rgba(212,175,55,0.36)', fontStyle: 'italic' }}>
+                    {f.character}
+                  </p>
+                </div>
+                <div style={{ padding: '32px', display: 'flex', flexDirection: 'column', gap: 16 }}>
+                  {f.description.map((p, i) => (
+                    <p key={i} style={{ fontFamily: SANS, fontSize: 14, lineHeight: 1.78, color: 'rgba(169,163,154,0.8)' }}>{p}</p>
+                  ))}
+                  {f.notes && f.notes.length > 0 && (
+                    <div style={{ borderTop: '1px solid rgba(212,175,55,0.08)', paddingTop: 16, marginTop: 4, display: 'flex', flexDirection: 'column', gap: 14 }}>
+                      {f.notes.map((note, i) => (
+                        <div key={i}>
+                          <p style={{ fontFamily: SANS, fontSize: 9, letterSpacing: '0.2em', textTransform: 'uppercase', color: 'rgba(212,175,55,0.38)', marginBottom: 5 }}>
+                            {note.heading}
+                          </p>
+                          <p style={{ fontFamily: SANS, fontSize: 12, fontStyle: 'italic', color: 'rgba(127,122,115,0.55)', whiteSpace: 'pre-line' }}>
+                            {note.body}
+                          </p>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              </div>
+            </FadeUp>
           ))}
         </div>
+      </section>
 
-        <div className="mt-16 text-center">
-          <Link
-            href="/calendar"
-            className="text-caption tracking-widest uppercase text-ash hover:text-bone transition-colors"
-          >
-            View forthcoming gatherings →
+      {/* CTA */}
+      <div className="px-6 md:px-10 max-w-4xl mx-auto text-center">
+        <FadeUp>
+          <div style={{ width: 36, height: 1, background: 'rgba(212,175,55,0.2)', margin: '0 auto 28px' }} />
+          <p className="font-serif font-light text-bone" style={{ fontSize: 'clamp(1.25rem, 2vw, 1.7rem)', marginBottom: 28 }}>
+            Access to all formats begins with<br />membership consideration.
+          </p>
+          <Link href="/membership" className="btn-consideration">
+            Request consideration
           </Link>
-        </div>
-
+        </FadeUp>
       </div>
+
     </div>
   )
 }

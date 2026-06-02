@@ -1,5 +1,12 @@
 export type UserRole = 'public' | 'member' | 'admin'
 export type MembershipTier = 'society' | 'salon' | 'patron'
+
+// Display labels for tiers (DB uses 'salon', UI shows 'Preferred Seat')
+export const TIER_LABEL: Record<MembershipTier, string> = {
+  society: 'Society',
+  salon: 'Preferred Seat',
+  patron: 'Patron',
+}
 export type MembershipStatus = 'applied' | 'invited' | 'active' | 'paused' | 'rejected'
 export type EventVisibility = 'public' | 'members_only'
 export type EventStatus = 'draft' | 'announced' | 'invitation_release' | 'composed' | 'waitlist_only' | 'archived'
@@ -50,7 +57,13 @@ export interface Database {
           celebration_notes: string | null
           celebration_dates: Record<string, string> | null
           accessibility_needs: string | null
+          drink_preferences: string | null
           conversation_preferences: string | null
+          general_notes: string | null
+          preferred_near: string | null
+          avoid_near: string | null
+          composition_notes: string | null
+          setup_completed: boolean | null
           default_guest_name: string | null
           default_guest_notes: string | null
           updated_at: string

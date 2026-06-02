@@ -1,17 +1,21 @@
-import { requireMember } from '@/lib/auth'
+import { requireMember, getActiveMembership } from '@/lib/auth'
 import Link from 'next/link'
 
-const MEMBER_NAV = [
-  { href: '/members/dashboard',    label: 'Home' },
-  { href: '/members/events',       label: 'Events' },
-  { href: '/members/archive',      label: 'Archive' },
-  { href: '/members/room-culture', label: 'Room Culture' },
-  { href: '/members/profile',      label: 'My Profile' },
-  { href: '/members/support',      label: 'Support' },
-]
-
 export default async function MembersLayout({ children }: { children: React.ReactNode }) {
-  const user = await requireMember() // redirects if not authenticated or not member
+  const user = await requireMember()
+  const membership = await getActiveMembership(user.id)
+  const tier = membership?.tier
+  const isPreferredOrPatron = tier === 'salon' || tier === 'patron'
+
+  const MEMBER_NAV = [
+    { href: '/members/dashboard',    label: 'Home' },
+    { href: '/members/events',       label: 'Events' },
+    { href: '/members/archive',      label: 'Archive' },
+    { href: '/members/room-culture', label: 'Room Culture' },
+    { href: '/members/profile',      label: 'My Profile' },
+    ...(isPreferredOrPatron ? [{ href: '/members/composition', label: 'Composition Notes' }] : []),
+    { href: '/members/support',      label: 'Support' },
+  ]
 
   return (
     <div className="min-h-screen bg-carbon">

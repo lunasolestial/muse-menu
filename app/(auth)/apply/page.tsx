@@ -2,37 +2,42 @@
 import { useState } from 'react'
 import { Input, Textarea } from '@/components/ui/Input'
 import { submitApplication } from '@/app/actions'
+import SubmissionOverlay from '@/components/ui/SubmissionOverlay'
 import Link from 'next/link'
 
 export default function ApplyPage() {
-  const [state, setState] = useState<'idle' | 'loading' | 'success' | 'error'>('idle')
-  const [errorMsg, setErrorMsg] = useState('')
+  const [state, setState]           = useState<'idle' | 'loading' | 'success' | 'error'>('idle')
+  const [errorMsg, setErrorMsg]     = useState('')
+  const [fieldErrors, setFieldErrors] = useState<Record<string, string[]>>({})
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault()
     setState('loading')
+    setFieldErrors({})
     const result = await submitApplication(new FormData(e.currentTarget))
     if (result.success) { setState('success'); return }
     setErrorMsg(result.error ?? 'Something went wrong.')
+    if ('fieldErrors' in result && result.fieldErrors) setFieldErrors(result.fieldErrors)
     setState('error')
+  }
+
+  const fe = (field: string) => fieldErrors[field]?.[0]
+
+  if (state === 'loading') {
+    return (
+      <SubmissionOverlay
+        message="Receiving your consideration."
+        subtext="One moment while we compose the next step."
+      />
+    )
   }
 
   if (state === 'success') {
     return (
-      <div className="min-h-screen bg-carbon flex flex-col items-center justify-center px-6 text-center">
-        <div className="w-px h-20 bg-antique-gold/30 mb-10" />
-        <h1 className="font-serif text-headline text-bone font-light mb-4">
-          Your consideration has been submitted.
-        </h1>
-        <p className="text-body text-ash max-w-sm leading-relaxed mb-8">
-          {/* [TODO: refine with internal Muse & Menu copy] */}
-          We review each application with care. If there is alignment,
-          you will hear from us directly. The process is unhurried.
-        </p>
-        <Link href="/" className="text-caption tracking-widest uppercase text-antique-gold/60 hover:text-antique-gold transition-colors">
-          Return home
-        </Link>
-      </div>
+      <SubmissionOverlay
+        message="Your consideration has been received."
+        subtext="We will be in touch directly. The process is unhurried."
+      />
     )
   }
 
@@ -45,7 +50,7 @@ export default function ApplyPage() {
         </Link>
 
         <div className="mb-12">
-          <p className="text-caption tracking-widest uppercase text-antique-gold/50 mb-3">Membership Application</p>
+          <p className="text-caption tracking-widest uppercase text-antique-gold/40 mb-3">Membership consideration</p>
           <h1 className="font-serif text-headline text-bone font-light leading-tight mb-4">
             Request consideration.
           </h1>
@@ -59,10 +64,10 @@ export default function ApplyPage() {
 
         <form onSubmit={handleSubmit} className="space-y-6">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-            <Input name="name" label="Full name" placeholder="Your full name" required />
-            <Input name="email" type="email" label="Email address" placeholder="you@email.com" required />
+            <Input name="name" label="Full name" placeholder="Your full name" required error={fe('name')} />
+            <Input name="email" type="email" label="Email address" placeholder="you@email.com" required error={fe('email')} />
           </div>
-          <Input name="city" label="City" placeholder="Where are you based?" required />
+          <Input name="city" label="City" placeholder="Where are you based?" required error={fe('city')} />
           <Input name="referred_by" label="Referred by" placeholder="Name of your referral, if any" />
           <Input
             name="how_did_you_hear"
@@ -75,6 +80,7 @@ export default function ApplyPage() {
             placeholder="Tell us something about yourself — how you eat, what you value at a table, what kind of evening you are looking for. This is the most important part of your application."
             rows={6}
             required
+            error={fe('why_muse')}
           />
           <Textarea
             name="dietary_notes"
@@ -83,7 +89,9 @@ export default function ApplyPage() {
             rows={3}
           />
 
-          {state === 'error' && <p className="text-xs text-red-400">{errorMsg}</p>}
+          {state === 'error' && !Object.keys(fieldErrors).length && (
+            <p className="text-xs text-red-400">{errorMsg}</p>
+          )}
 
           <div className="pt-2">
             <button

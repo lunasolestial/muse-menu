@@ -1,5 +1,6 @@
 import { getCurrentUser, getActiveMembership } from '@/lib/auth'
 import { createClient } from '@/lib/supabase/server'
+import { TIER_LABEL } from '@/lib/database.types'
 import type { Database } from '@/lib/database.types'
 import Link from 'next/link'
 
@@ -10,9 +11,12 @@ export default async function MemberDashboard() {
   if (!user) return null
 
   const membership = await getActiveMembership(user.id)
-  const supabase   = await createClient()
+  const tier = membership?.tier
+  const isPreferredOrPatron = tier === 'salon' || tier === 'patron'
+  const isPatron = tier === 'patron'
 
-  // Upcoming events the member hasn't RSVP'd to
+  const supabase = await createClient()
+
   const eventsResult = await supabase
     .from('events')
     .select('*')
@@ -21,6 +25,15 @@ export default async function MemberDashboard() {
     .order('date', { ascending: true })
     .limit(3)
   const events = eventsResult.data as EventRow[] | null
+
+  const quickLinks = [
+    { href: '/members/profile',      label: 'My Preferences',     sub: 'Taste, seating, notes' },
+    ...(isPreferredOrPatron ? [{ href: '/members/composition', label: 'Composition Notes', sub: 'Concierge seating intake' }] : []),
+    { href: '/members/archive',      label: 'Archive',            sub: 'Past gatherings' },
+    { href: '/members/room-culture', label: 'Room Culture',       sub: 'Our shared etiquette' },
+    ...(isPatron ? [{ href: '/members/patron',  label: 'Patron Perks',       sub: 'Bar privilege · bottle policy' }] : []),
+    { href: '/members/support',      label: 'Support',            sub: 'Reach the team' },
+  ]
 
   return (
     <div className="space-y-14">
@@ -32,9 +45,20 @@ export default async function MemberDashboard() {
           Welcome{user.name ? `, ${user.name.split(' ')[0]}` : ''}.
         </h1>
         {membership && (
-          <p className="text-body-sm text-ash mt-2 capitalize">
-            {membership.tier} Society
-          </p>
+          <div style={{ display: 'inline-flex', alignItems: 'center', gap: 8, marginTop: 10 }}>
+            <span style={{ width: 5, height: 5, borderRadius: '50%', background: 'rgba(212,175,55,0.55)', display: 'inline-block', flexShrink: 0 }} />
+            <span
+              style={{
+                fontFamily: 'var(--font-dm-sans)',
+                fontSize: 9,
+                letterSpacing: '0.26em',
+                textTransform: 'uppercase',
+                color: 'rgba(212,175,55,0.60)',
+              }}
+            >
+              {TIER_LABEL[membership.tier]} Member
+            </span>
+          </div>
         )}
       </div>
 
@@ -82,12 +106,7 @@ export default async function MemberDashboard() {
 
       {/* Quick links */}
       <section className="grid grid-cols-2 md:grid-cols-4 gap-4">
-        {[
-          { href: '/members/archive',      label: 'Archive',       sub: 'Past gatherings' },
-          { href: '/members/profile',      label: 'My Profile',    sub: 'Preferences & info' },
-          { href: '/members/room-culture', label: 'Room Culture',  sub: 'Our shared etiquette' },
-          { href: '/members/support',      label: 'Support',       sub: 'Reach the team' },
-        ].map((item) => (
+        {quickLinks.map((item) => (
           <Link
             key={item.href}
             href={item.href}

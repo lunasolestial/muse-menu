@@ -1,132 +1,278 @@
 import MuseRevealHero from '@/components/muse/MuseRevealHero'
+import FadeUp from '@/components/motion/FadeUp'
 import Link from 'next/link'
+import { CALENDAR_TEASER } from '@/lib/content/events'
+import { FLAGSHIP_FORMAT, HOMEPAGE_GLIMPSE } from '@/lib/content/formats'
 
-// ── Blurred calendar teaser — public view ─────────────────────────────────
-function BlurredCalendarTeaser() {
-  const events = [
-    { date: 'Jun', theme: 'A Midsummer Composition' },
-    { date: 'Jul', theme: 'The Salt Chapter' },
-    { date: 'Aug', theme: 'Nocturne & Harvest' },
+const SANS = 'var(--font-dm-sans), system-ui, sans-serif'
+const SERIF = 'var(--font-cormorant), Georgia, serif'
+
+function Hairline() {
+  return <div style={{ width: 36, height: 1, background: 'rgba(212,175,55,0.22)', margin: '0 auto' }} />
+}
+
+// ── Calendar ──────────────────────────────────────────────────────────────────
+function CalendarTeaser() {
+  const evenings = CALENDAR_TEASER
+
+  return (
+    <section
+      className="py-28 px-6 md:px-10 border-t border-antique-gold/8"
+      style={{ background: 'linear-gradient(180deg, #1E0C2C 0%, #14081E 50%, #0D1014 100%)' }}
+    >
+      <div className="max-w-4xl mx-auto">
+        <FadeUp>
+          <div className="flex items-end justify-between mb-16">
+            <div>
+              <p style={{ fontFamily: SANS, fontSize: 9, letterSpacing: '0.26em', textTransform: 'uppercase', color: 'rgba(212,175,55,0.42)', marginBottom: 14 }}>
+                The Calendar
+              </p>
+              {/* Explicit lineHeight avoids "Forthcoming gatherings." running together */}
+              <h2 className="font-serif font-light text-bone" style={{ fontSize: 'clamp(1.75rem, 3.5vw, 3rem)', lineHeight: 1.15, letterSpacing: '-0.015em' }}>
+                Forthcoming<br />
+                <em>gatherings.</em>
+              </h2>
+            </div>
+            <Link href="/calendar" style={{ fontFamily: SANS, fontSize: 9, letterSpacing: '0.2em', textTransform: 'uppercase', color: 'rgba(169,163,154,0.6)', transition: 'color 0.2s' }} className="hidden md:block hover:text-bone">
+              Full calendar →
+            </Link>
+          </div>
+        </FadeUp>
+
+        <FadeUp delay={0.1}>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
+            {evenings.map((e, i) => (
+              <div
+                key={i}
+                style={{
+                  display: 'grid',
+                  gridTemplateColumns: '52px 1fr auto',
+                  alignItems: 'center',
+                  gap: '0 24px',
+                  padding: '18px 24px',
+                  border: '1px solid rgba(212,175,55,0.09)',
+                }}
+              >
+                <span style={{ fontFamily: SANS, fontSize: 9, letterSpacing: '0.22em', textTransform: 'uppercase', color: 'rgba(212,175,55,0.38)' }}>
+                  {e.season}
+                </span>
+                <div aria-hidden="true">
+                  <p className="font-serif font-light text-bone" style={{ fontSize: '1rem', lineHeight: 1.4, filter: 'blur(5px)' }}>
+                    {e.label}
+                  </p>
+                  <p style={{ fontFamily: SANS, fontSize: 11, color: 'rgba(127,122,115,0.6)', marginTop: 3, filter: 'blur(4px)' }}>
+                    {e.sub}
+                  </p>
+                </div>
+                <span style={{ fontFamily: SANS, fontSize: 9, letterSpacing: '0.18em', textTransform: 'uppercase', color: 'rgba(127,122,115,0.4)', whiteSpace: 'nowrap' }}>
+                  Members only
+                </span>
+              </div>
+            ))}
+          </div>
+
+          <p style={{ fontFamily: SANS, fontSize: 13, color: 'rgba(169,163,154,0.7)', textAlign: 'center', marginTop: 28, lineHeight: 1.6 }}>
+            The full calendar is held for members.{' '}
+            <Link href="/membership" style={{ color: 'rgba(212,175,55,0.55)', textDecoration: 'underline', textDecorationColor: 'rgba(212,175,55,0.2)', textUnderlineOffset: 4, transition: 'color 0.2s' }} className="hover:text-antique-gold">
+              Request consideration
+            </Link>
+          </p>
+        </FadeUp>
+      </div>
+    </section>
+  )
+}
+
+// ── Flagship Dinner ───────────────────────────────────────────────────────────
+function FlagshipStatement() {
+  const f = FLAGSHIP_FORMAT
+  const specs = [
+    ['Guests',  f.guests],
+    ['Format',  f.format],
+    ['Cadence', f.cadence],
+    ['Access',  f.access],
   ]
 
   return (
-    <section className="py-24 px-6 md:px-10 bg-ink">
-      <div className="max-w-4xl mx-auto">
-        <div className="flex items-end justify-between mb-10">
-          <div>
-            <p className="text-caption tracking-widest uppercase text-antique-gold/50 mb-3">The Calendar</p>
-            <h2 className="font-serif text-headline text-bone font-light">
-              Forthcoming Gatherings
-            </h2>
-          </div>
-          <Link
-            href="/calendar"
-            className="text-caption tracking-widest uppercase text-ash hover:text-bone transition-colors hidden md:block"
+    <section
+      className="py-36 px-6 md:px-10 border-t border-antique-gold/8"
+      style={{ background: 'linear-gradient(180deg, #0D1014 0%, #111318 100%)' }}
+    >
+      <div className="max-w-3xl mx-auto">
+        <FadeUp>
+          <p style={{ fontFamily: SANS, fontSize: 9, letterSpacing: '0.26em', textTransform: 'uppercase', color: 'rgba(212,175,55,0.42)', marginBottom: 20 }}>
+            {f.name}
+          </p>
+          <h2
+            className="font-serif font-light text-bone"
+            style={{ fontSize: 'clamp(2rem, 5vw, 4rem)', lineHeight: 1.12, letterSpacing: '-0.02em', marginBottom: 40 }}
           >
-            View calendar →
-          </Link>
-        </div>
+            The Society&apos;s flagship.<br />
+            <em style={{ opacity: 0.85 }}>Every detail composed.</em>
+          </h2>
+        </FadeUp>
 
-        <div className="space-y-3">
-          {events.map((e, i) => (
-            <div
-              key={i}
-              className="relative border border-antique-gold/10 p-5 flex items-center gap-5 overflow-hidden"
-            >
-              {/* Blurred theme for non-members */}
-              <span className="text-caption tracking-widest text-antique-gold/40 w-8 shrink-0">{e.date}</span>
-              <div className="flex-1 min-w-0">
-                <p className="font-serif text-body text-bone font-light select-none" style={{ filter: 'blur(5px)' }}>
-                  {e.theme}
+        <FadeUp delay={0.12}>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-12 mb-14">
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 18 }}>
+              {f.description.slice(0, 2).map((p, i) => (
+                <p key={i} style={{ fontFamily: SANS, fontSize: 14, lineHeight: 1.75, color: 'rgba(169,163,154,0.82)' }}>
+                  {p}
+                </p>
+              ))}
+            </div>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 0 }}>
+              {specs.map(([k, v]) => (
+                <div
+                  key={k}
+                  style={{ display: 'flex', alignItems: 'baseline', gap: 16, padding: '14px 0', borderBottom: '1px solid rgba(30,12,44,0.6)' }}
+                >
+                  <span style={{ fontFamily: SANS, fontSize: 9, letterSpacing: '0.2em', textTransform: 'uppercase', color: 'rgba(127,122,115,0.6)', width: 72, flexShrink: 0 }}>
+                    {k}
+                  </span>
+                  <span style={{ fontFamily: SANS, fontSize: 13, color: 'rgba(169,163,154,0.8)' }}>{v}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+          <Link href="/formats" style={{ fontFamily: SANS, fontSize: 9, letterSpacing: '0.22em', textTransform: 'uppercase', color: 'rgba(169,163,154,0.6)', transition: 'color 0.2s' }} className="hover:text-bone">
+            All formats →
+          </Link>
+        </FadeUp>
+      </div>
+    </section>
+  )
+}
+
+// ── Adjacent formats ──────────────────────────────────────────────────────────
+function FormatsGlimpse() {
+  const formats = HOMEPAGE_GLIMPSE
+
+  return (
+    <section
+      className="py-28 px-6 md:px-10 border-t border-antique-gold/8"
+      style={{ background: '#0F0E12' }}
+    >
+      <div className="max-w-5xl mx-auto">
+        <FadeUp>
+          <p style={{ fontFamily: SANS, fontSize: 9, letterSpacing: '0.26em', textTransform: 'uppercase', color: 'rgba(212,175,55,0.42)', marginBottom: 44 }}>
+            Adjacent expressions
+          </p>
+        </FadeUp>
+
+        <FadeUp delay={0.08}>
+          <div
+            style={{
+              display: 'grid',
+              gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))',
+              gap: 1,
+              background: 'rgba(30,12,44,0.4)',
+            }}
+          >
+            {formats.map((f) => (
+              <div
+                key={f.id}
+                style={{ background: '#0F0E12', padding: '36px 32px', display: 'flex', flexDirection: 'column', gap: 16 }}
+              >
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
+                  <span style={{ fontFamily: SANS, fontSize: 9, letterSpacing: '0.22em', color: 'rgba(30,12,44,0.9)' }}>{f.num}</span>
+                  <span style={{ fontFamily: SANS, fontSize: 9, letterSpacing: '0.2em', textTransform: 'uppercase', color: 'rgba(127,122,115,0.55)' }}>{f.guests}</span>
+                </div>
+                <h3 className="font-serif font-light text-bone" style={{ fontSize: 'clamp(1.1rem, 1.8vw, 1.5rem)', lineHeight: 1.2 }}>
+                  {f.name}
+                </h3>
+                <p style={{ fontFamily: SANS, fontSize: 13, lineHeight: 1.65, color: 'rgba(169,163,154,0.75)' }}>
+                  {f.description[0]}
                 </p>
               </div>
-              <span className="text-caption text-fog text-right shrink-0">Members only</span>
-            </div>
-          ))}
-        </div>
+            ))}
+          </div>
 
-        <p className="mt-6 text-body-sm text-ash text-center">
-          Members receive the full calendar.{' '}
-          <Link href="/membership" className="text-antique-gold/70 hover:text-antique-gold transition-colors underline underline-offset-4 decoration-antique-gold/20">
-            Request consideration
-          </Link>
-        </p>
+          <div style={{ textAlign: 'center', marginTop: 32 }}>
+            <Link href="/formats" style={{ fontFamily: SANS, fontSize: 9, letterSpacing: '0.22em', textTransform: 'uppercase', color: 'rgba(169,163,154,0.6)', transition: 'color 0.2s' }} className="hover:text-bone">
+              Full format guide →
+            </Link>
+          </div>
+        </FadeUp>
       </div>
     </section>
   )
 }
 
-// ── Formats glimpse ────────────────────────────────────────────────────────
-function FormatsGlimpse() {
-  const formats = [
-    {
-      name: 'The Salon Table',
-      descriptor: 'Intimate. Eight seats. Singular focus.',
-      note: 'A single chef. A single theme. A single evening.',
-    },
-    {
-      name: 'The Muse Dinner',
-      descriptor: 'Curated. Sixteen seats. Composed.',
-      note: 'Full table. Full menu. The signature format.',
-    },
-    {
-      name: 'The Society Evening',
-      descriptor: 'Rare. Invitation-forward.',
-      note: 'Reserved for moments of particular significance.',
-    },
-  ]
-
-  return (
-    <section className="py-24 px-6 md:px-10 bg-carbon">
-      <div className="max-w-5xl mx-auto">
-        <div className="mb-12">
-          <p className="text-caption tracking-widest uppercase text-antique-gold/50 mb-3">Formats</p>
-          <h2 className="font-serif text-headline text-bone font-light max-w-lg">
-            The table takes different forms
-          </h2>
-        </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-px bg-antique-gold/10">
-          {formats.map((f) => (
-            <div key={f.name} className="bg-carbon p-8 space-y-4">
-              <p className="text-caption tracking-widest uppercase text-antique-gold/50">{f.descriptor}</p>
-              <h3 className="font-serif text-title text-bone font-light">{f.name}</h3>
-              <p className="text-body-sm text-ash leading-relaxed">{f.note}</p>
-            </div>
-          ))}
-        </div>
-
-        <div className="mt-8 text-center">
-          <Link
-            href="/formats"
-            className="text-caption tracking-widest uppercase text-ash hover:text-bone transition-colors"
-          >
-            Explore all formats →
-          </Link>
-        </div>
-      </div>
-    </section>
-  )
-}
-
-// ── Editorial statement ────────────────────────────────────────────────────
+// ── Editorial quote ───────────────────────────────────────────────────────────
 function EditorialStatement() {
   return (
-    <section className="py-32 px-6 md:px-10 bg-midnight-plum/20 border-y border-antique-gold/10">
-      <div className="max-w-3xl mx-auto text-center space-y-8">
-        <div className="w-12 h-px bg-antique-gold/30 mx-auto" />
-        <p className="font-serif text-headline text-bone font-light leading-snug">
-          {/* [TODO: refine with internal Muse & Menu copy] */}
-          "The room is never full for fullness' sake.
-          Each guest is considered. Each detail is placed."
-        </p>
-        <div className="w-12 h-px bg-antique-gold/30 mx-auto" />
-        <Link
-          href="/membership"
-          className="inline-flex items-center gap-3 text-caption tracking-widest uppercase border border-antique-gold/30 text-bone px-10 py-4 hover:border-antique-gold/60 hover:text-porcelain transition-all"
-        >
-          Request consideration
-        </Link>
+    <section
+      className="py-44 px-6 md:px-10 border-t border-antique-gold/8"
+      style={{ background: 'linear-gradient(180deg, #130A1E 0%, #1E0C2C 45%, #130A1E 100%)' }}
+    >
+      <div className="max-w-lg mx-auto text-center">
+        <FadeUp>
+          <Hairline />
+          <blockquote
+            className="font-serif font-light text-bone"
+            style={{ fontSize: 'clamp(1.6rem, 3.2vw, 2.8rem)', lineHeight: 1.2, letterSpacing: '-0.01em', margin: '40px 0 12px' }}
+          >
+            &ldquo;The room is never full<br />
+            for fullness&rsquo; sake.&rdquo;
+          </blockquote>
+          <p className="font-serif" style={{ fontStyle: 'italic', fontSize: 13, color: 'rgba(169,163,154,0.55)', marginBottom: 40 }}>
+            — on placement
+          </p>
+          <Hairline />
+          <div style={{ marginTop: 44 }}>
+            <Link href="/membership" className="btn-consideration">
+              Request consideration
+            </Link>
+          </div>
+        </FadeUp>
+      </div>
+    </section>
+  )
+}
+
+// ── Partners ──────────────────────────────────────────────────────────────────
+function PartnersGlimpse() {
+  return (
+    <section
+      className="border-t border-antique-gold/8"
+      style={{ background: '#111318', padding: 'clamp(56px, 7vw, 88px) clamp(24px, 2.5vw, 40px)' }}
+    >
+      <div className="max-w-5xl mx-auto flex flex-col md:flex-row items-start md:items-end justify-between gap-10">
+        <FadeUp>
+          <div style={{ maxWidth: 320 }}>
+            <p style={{ fontFamily: SANS, fontSize: 9, letterSpacing: '0.26em', textTransform: 'uppercase', color: 'rgba(212,175,55,0.42)', marginBottom: 14 }}>
+              Partners
+            </p>
+            <h2 className="font-serif font-light text-bone" style={{ fontSize: 'clamp(1.25rem, 2vw, 1.7rem)', lineHeight: 1.25 }}>
+              Craft over reach.<br />
+              <em>Partnership by alignment.</em>
+            </h2>
+          </div>
+        </FadeUp>
+        <FadeUp delay={0.1}>
+          <div style={{ display: 'flex', flexWrap: 'wrap', gap: 10 }}>
+            {[
+              { label: 'Chefs',    href: '/partners/chefs'    },
+              { label: 'Vendors',  href: '/partners/vendors'  },
+              { label: 'Sponsors', href: '/partners/sponsors' },
+            ].map((p) => (
+              <Link
+                key={p.href}
+                href={p.href}
+                style={{
+                  fontFamily: SANS, fontSize: 10, letterSpacing: '0.24em',
+                  textTransform: 'uppercase', color: 'rgba(169,163,154,0.65)',
+                  border: '1px solid rgba(30,12,44,0.7)', padding: '11px 22px',
+                  transition: 'all 0.3s', display: 'inline-block',
+                }}
+                className="hover:border-antique-gold/35 hover:text-bone"
+              >
+                {p.label}
+              </Link>
+            ))}
+          </div>
+        </FadeUp>
       </div>
     </section>
   )
@@ -136,9 +282,11 @@ export default function HomePage() {
   return (
     <>
       <MuseRevealHero />
-      <BlurredCalendarTeaser />
+      <CalendarTeaser />
+      <FlagshipStatement />
       <FormatsGlimpse />
       <EditorialStatement />
+      <PartnersGlimpse />
     </>
   )
 }

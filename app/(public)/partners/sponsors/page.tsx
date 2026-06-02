@@ -2,6 +2,7 @@
 import { useState } from 'react'
 import { Input, Textarea, Select } from '@/components/ui/Input'
 import { submitSponsorInquiry } from '@/app/actions'
+import SubmissionOverlay from '@/components/ui/SubmissionOverlay'
 
 export default function SponsorsPage() {
   const [state, setState] = useState<'idle' | 'loading' | 'success' | 'error'>('idle')
@@ -16,29 +17,25 @@ export default function SponsorsPage() {
     setState('error')
   }
 
-  if (state === 'success') {
+  if (state === 'loading' || state === 'success') {
     return (
-      <div className="pt-32 pb-24 px-6 max-w-xl mx-auto text-center space-y-6">
-        <div className="w-px h-16 bg-antique-gold/30 mx-auto" />
-        <h1 className="font-serif text-headline text-bone font-light">Your outline request has been received.</h1>
-        <p className="text-body-sm text-ash">
-          We review partnership inquiries with care. If there is alignment, someone from the Society will be in touch.
-        </p>
-      </div>
+      <SubmissionOverlay
+        message={state === 'loading' ? 'Preparing your request.' : 'Your partnership inquiry has been received.'}
+        subtext={state === 'loading' ? 'One moment.' : 'If there is alignment, someone from the Society will be in touch.'}
+      />
     )
   }
 
   return (
     <div className="pt-32 pb-24 px-6 md:px-10">
       <div className="max-w-2xl mx-auto">
-        <p className="text-caption tracking-widest uppercase text-antique-gold/50 mb-4">Sponsors</p>
+        <p className="text-caption tracking-widest uppercase text-antique-gold/40 mb-4">Brand Partnerships</p>
         <h1 className="font-serif text-display text-bone font-light leading-none mb-6">
           Request a<br /><em>partnership outline.</em>
         </h1>
         <p className="text-body text-ash leading-relaxed mb-12">
-          {/* [TODO: refine with internal Muse & Menu copy] */}
-          We work with brands whose values, aesthetics, and audience align with the Society.
-          If that description fits, we'd like to hear from you.
+          We work with brands whose values and aesthetic belong in this room.
+          Alignment matters more than reach. If that describes you, we would like to hear from you.
         </p>
 
         <form onSubmit={handleSubmit} className="space-y-6">

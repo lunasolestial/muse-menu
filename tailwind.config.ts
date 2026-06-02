@@ -17,7 +17,7 @@ const config: Config = {
         'antique-gold': '#D4AF37',
         'aged-gold':    '#B9922A',
         // Signature night hue
-        'midnight-plum': '#2A1636',
+        'midnight-plum': '#1E0C2C',
         // Utility neutrals
         smoke: '#2A2F36',
         ash:   '#A9A39A',

@@ -5,9 +5,13 @@ import type { UserRole, Database } from './database.types'
 type UserRow = Database['public']['Tables']['users']['Row']
 
 export async function getSession() {
-  const supabase = await createClient()
-  const { data: { session } } = await supabase.auth.getSession()
-  return session
+  try {
+    const supabase = await createClient()
+    const { data: { session } } = await supabase.auth.getSession()
+    return session
+  } catch {
+    return null
+  }
 }
 
 export async function getCurrentUser(): Promise<UserRow | null> {

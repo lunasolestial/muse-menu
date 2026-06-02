@@ -7,7 +7,12 @@ import { applySchema, partnerInquirySchema, sponsorInquirySchema } from '@/lib/s
 export async function submitApplication(formData: FormData) {
   const raw = Object.fromEntries(formData)
   const parsed = applySchema.safeParse(raw)
-  if (!parsed.success) return { error: 'Please review your responses.' }
+  if (!parsed.success) {
+    return {
+      error: 'Please review your responses.',
+      fieldErrors: parsed.error.flatten().fieldErrors as Record<string, string[]>,
+    }
+  }
 
   const supabase = await createClient()
   const { data: { user } } = await supabase.auth.getUser()
@@ -17,8 +22,11 @@ export async function submitApplication(formData: FormData) {
   if (!userId) {
     const { data, error } = await supabase.auth.signUp({
       email: parsed.data.email,
-      password: crypto.randomUUID(), // temporary; they'll set via magic link
-      options: { data: { full_name: parsed.data.name } },
+      password: crypto.randomUUID(),
+      options: {
+        data: { full_name: parsed.data.name },
+        emailRedirectTo: `${process.env.NEXT_PUBLIC_SITE_URL ?? 'https://museandmenu.com'}/auth/callback`,
+      },
     })
     if (error) return { error: error.message }
     userId = data.user?.id
@@ -83,6 +91,25 @@ export async function updateMemberProfile(formData: FormData) {
   )
 
   await supabase.from('member_profiles').upsert({ user_id: user.id, ...updates } as any)
+  return { success: true }
+}
+
+// ── Composition Notes ─────────────────────────────────────────────────────
+export async function saveCompositionNotes(formData: FormData) {
+  const supabase = await createClient()
+  const { data: { user } } = await supabase.auth.getUser()
+  if (!user) return { error: 'Not authenticated.' }
+
+  const notes = JSON.stringify({
+    intent:          formData.getAll('intent[]'),
+    pace:            formData.get('pace'),
+    room_loves:      formData.getAll('room_loves[]'),
+    introductions:   formData.get('introductions'),
+    roles_to_meet:   formData.get('roles_to_meet'),
+    favorite_dinner: formData.get('favorite_dinner'),
+  })
+
+  await supabase.from('member_profiles').upsert({ user_id: user.id, composition_notes: notes } as any)
   return { success: true }
 }
 

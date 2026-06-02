@@ -2,6 +2,7 @@
 import { useState } from 'react'
 import { Input, Textarea } from '@/components/ui/Input'
 import { submitPartnerInquiry } from '@/app/actions'
+import SubmissionOverlay from '@/components/ui/SubmissionOverlay'
 
 export default function ChefsPage() {
   const [state, setState] = useState<'idle' | 'loading' | 'success' | 'error'>('idle')
@@ -16,13 +17,12 @@ export default function ChefsPage() {
     setState('error')
   }
 
-  if (state === 'success') {
+  if (state === 'loading' || state === 'success') {
     return (
-      <div className="pt-32 pb-24 px-6 max-w-xl mx-auto text-center space-y-6">
-        <div className="w-px h-16 bg-antique-gold/30 mx-auto" />
-        <h1 className="font-serif text-headline text-bone font-light">Your credentials have been received.</h1>
-        <p className="text-body-sm text-ash">We review all chef submissions carefully. If there is a fit, we will be in touch about an upcoming muse.</p>
-      </div>
+      <SubmissionOverlay
+        message={state === 'loading' ? 'Preparing your submission.' : 'Your credentials have been received.'}
+        subtext={state === 'loading' ? 'One moment.' : 'If there is a fit, we will be in touch about an upcoming muse.'}
+      />
     )
   }
 
@@ -31,29 +31,28 @@ export default function ChefsPage() {
       <div className="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-20">
 
         <div>
-          <p className="text-caption tracking-widest uppercase text-antique-gold/50 mb-4">Chef Partners</p>
+          <p className="text-caption tracking-widest uppercase text-antique-gold/40 mb-4">Chef Partners</p>
           <h1 className="font-serif text-display text-bone font-light leading-none mb-8">
             A point of view<br />
             <em>over a brand.</em>
           </h1>
           <div className="space-y-4 text-body text-ash leading-relaxed">
             <p>
-              {/* [TODO: refine with internal Muse & Menu copy] */}
               We work with chefs who have something to say. The muse gives them a
               constraint. The room gives them a reason. The members give them an audience
               worth cooking for.
             </p>
             <p>
-              We are not looking for celebrity names. We are looking for craft,
-              perspective, and the ability to compose a meal around an idea.
+              We are not looking for names. We are looking for craft, perspective,
+              and the ability to compose a meal around an idea.
             </p>
           </div>
           <div className="mt-10 space-y-3 text-body-sm">
             {[
-              'You lead with a clear culinary perspective',
-              'You are interested in intimacy over scale',
-              'You can work with a muse as a creative constraint',
-              'You are operational: prep, pacing, communication',
+              'A clear culinary perspective — not a concept, a point of view',
+              'Interested in intimacy over scale',
+              'Able to work with a muse as a creative constraint',
+              'Operational: prep, pacing, communication',
             ].map((item) => (
               <div key={item} className="flex items-start gap-3 text-ash">
                 <span className="text-antique-gold/40 shrink-0 mt-0.5">—</span>
