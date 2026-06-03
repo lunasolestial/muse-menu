@@ -23,7 +23,7 @@ const sections = [
     label: 'The table',
     bg: 'transparent',
     paragraphs: [
-      'The people around you are not there by coincidence. Placement is deliberate. Familiar companions are seated apart; new proximities are proposed. The Society's belief is that conversation becomes more interesting when you cannot entirely predict it.',
+      "The people around you are not there by coincidence. Placement is deliberate. Familiar companions are seated apart; new proximities are proposed. The Society’s belief is that conversation becomes more interesting when you cannot entirely predict it.",
       'Every gathering brings together a small, considered number of people — curated, not collected. A table of twelve or twenty. People who were found worth knowing, placed with care, and trusted to make something of the evening between them.',
     ],
   },
