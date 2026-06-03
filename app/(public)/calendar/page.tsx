@@ -23,16 +23,20 @@ function statusLabel(status: EventRow['status']) {
 
 export default async function CalendarPage() {
   const session  = await getSession()
-  const isMember = !!session // simplified; full check in member routes
-  const supabase = await createClient()
+  const isMember = !!session
 
-  const { data: events } = await supabase
-    .from('events')
-    .select('*')
-    .neq('status', 'draft')
-    .order('date', { ascending: true })
-
-  const typedEvents = (events ?? []) as EventRow[]
+  let typedEvents: EventRow[] = []
+  try {
+    const supabase = await createClient()
+    const { data } = await supabase
+      .from('events')
+      .select('*')
+      .neq('status', 'draft')
+      .order('date', { ascending: true })
+    typedEvents = (data ?? []) as EventRow[]
+  } catch {
+    // Supabase unavailable — show empty state gracefully
+  }
   const upcoming    = typedEvents.filter((e) => e.status !== 'archived')
   const past        = typedEvents.filter((e) => e.status === 'archived').slice(0, 3)
 

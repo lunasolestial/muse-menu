@@ -11,6 +11,7 @@ export const MAIN_NAV: NavItem[] = [
   { href: '/experience', label: 'Experience', sublabel: 'What an evening is like' },
   { href: '/formats',    label: 'Formats',    sublabel: 'The table takes different forms' },
   { href: '/calendar',   label: 'Calendar',   sublabel: 'Forthcoming gatherings' },
+  { href: '/gallery',    label: 'Gallery',    sublabel: 'Glimpses from past evenings' },
   { href: '/membership', label: 'Membership', sublabel: 'A standing relationship' },
   { href: '/partners',   label: 'Partners',   sublabel: 'Craft over reach' },
 ]
@@ -21,6 +22,7 @@ export const FOOTER_NAV = {
     { href: '/experience', label: 'Experience' },
     { href: '/formats',    label: 'Formats' },
     { href: '/calendar',   label: 'Calendar' },
+    { href: '/gallery',    label: 'Gallery' },
     { href: '/contact',    label: 'Contact' },
   ],
   society: [
