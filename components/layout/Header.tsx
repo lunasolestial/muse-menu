@@ -31,12 +31,12 @@ export default function Header({ isAuthenticated = false }: { isAuthenticated?: 
         <Link
           href="/"
           className="logo-luster"
-          style={{ textDecoration: 'none', display: 'inline-flex', alignItems: 'baseline', gap: '0.22em', lineHeight: 1 }}
+          style={{ textDecoration: 'none', display: 'inline-flex', alignItems: 'baseline', gap: '0.22em', lineHeight: 1, whiteSpace: 'nowrap' }}
         >
           <span style={{ fontFamily: SERIF, fontStyle: 'italic', fontWeight: 300, fontSize: 'clamp(1.45rem, 2vw, 1.9rem)', color: GOLD, letterSpacing: '0.025em' }}>Muse</span>
           <span style={{ fontFamily: SERIF, fontStyle: 'italic', fontWeight: 300, fontSize: 'clamp(0.78rem, 1.1vw, 1rem)', color: 'rgba(214,163,74,0.42)', alignSelf: 'center', letterSpacing: '0.06em' }}>&amp;</span>
           <span style={{ fontFamily: CAPS, fontWeight: 400, fontSize: 'clamp(0.98rem, 1.38vw, 1.3rem)', color: GOLD, letterSpacing: '0.24em', textTransform: 'uppercase' }}>Menu</span>
-          <span style={{ fontFamily: CAPS, fontWeight: 400, fontSize: 'clamp(0.55rem, 0.75vw, 0.7rem)', color: 'rgba(214,163,74,0.40)', letterSpacing: '0.32em', textTransform: 'uppercase', alignSelf: 'flex-end', paddingBottom: '0.2em' }}>Society</span>
+          <span className="hidden md:inline" style={{ fontFamily: CAPS, fontWeight: 400, fontSize: 'clamp(0.55rem, 0.75vw, 0.7rem)', color: 'rgba(214,163,74,0.40)', letterSpacing: '0.32em', textTransform: 'uppercase', alignSelf: 'flex-end', paddingBottom: '0.2em' }}>Society</span>
         </Link>
 
         {/* Desktop nav — Cinzel, all 7 routes */}
