@@ -156,19 +156,8 @@ export default function MembershipPage() {
                   {tier.position !== 'Extended' && (
                     <Link
                       href="/apply"
-                      style={{
-                        fontFamily: 'var(--font-dm-sans)',
-                        fontSize: 10,
-                        letterSpacing: '0.22em',
-                        textTransform: 'uppercase',
-                        color: tier.featured ? 'rgba(212,175,55,0.88)' : 'rgba(244,239,230,0.82)',
-                        border: `1px solid ${tier.featured ? 'rgba(212,175,55,0.42)' : 'rgba(212,175,55,0.22)'}`,
-                        padding: '11px 24px',
-                        display: 'block',
-                        textAlign: 'center',
-                        transition: 'all 0.3s',
-                      }}
-                      className="hover:border-antique-gold/60"
+                      className={tier.featured ? 'btn-gold' : 'btn-consideration'}
+                      style={{ display: 'block', textAlign: 'center', padding: '11px 24px' }}
                     >
                       Request consideration
                     </Link>

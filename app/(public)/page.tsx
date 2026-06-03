@@ -95,46 +95,86 @@ function FlagshipStatement() {
 
   return (
     <section
-      className="py-36 px-6 md:px-10 border-t border-antique-gold/8"
-      style={{ background: 'linear-gradient(180deg, #0D1014 0%, #111318 100%)' }}
+      className="border-t px-6 md:px-10"
+      style={{
+        borderTopColor: 'rgba(212,175,55,0.16)',
+        background: 'linear-gradient(180deg, #0E0B16 0%, #0D1014 55%, #111318 100%)',
+        position: 'relative',
+        overflow: 'hidden',
+        paddingTop: 'clamp(64px, 10vh, 144px)',
+        paddingBottom: 'clamp(64px, 10vh, 144px)',
+      }}
     >
-      <div className="max-w-3xl mx-auto">
+      {/* Candle glow — single warm source overhead, contained */}
+      <div
+        aria-hidden="true"
+        style={{
+          position: 'absolute', top: 0, left: '50%',
+          transform: 'translateX(-50%)',
+          width: '55%', height: '60%',
+          background: [
+            'radial-gradient(ellipse 40% 55% at 50% 0%, rgba(214,163,74,0.07) 0%, transparent 80%)',
+            'radial-gradient(ellipse 20% 30% at 50% 0%, rgba(244,215,140,0.05) 0%, transparent 55%)',
+          ].join(', '),
+          pointerEvents: 'none', zIndex: 0,
+        }}
+      />
+
+      <div className="max-w-3xl mx-auto" style={{ position: 'relative', zIndex: 1 }}>
         <FadeUp>
-          <p style={{ fontFamily: SANS, fontSize: 9, letterSpacing: '0.26em', textTransform: 'uppercase', color: 'rgba(212,175,55,0.42)', marginBottom: 20 }}>
-            {f.name}
-          </p>
+          {/* Flagship eyebrow — stronger prominence */}
+          <div style={{ display: 'flex', alignItems: 'center', gap: 14, marginBottom: 28 }}>
+            <div style={{ width: 20, height: 1, background: 'rgba(212,175,55,0.40)' }} />
+            <p style={{ fontFamily: SANS, fontSize: 9, letterSpacing: '0.30em', textTransform: 'uppercase', color: 'rgba(212,175,55,0.55)' }}>
+              01 — Flagship
+            </p>
+            <div style={{ width: 20, height: 1, background: 'rgba(212,175,55,0.40)' }} />
+          </div>
           <h2
             className="font-serif font-light text-bone"
             style={{ fontSize: 'clamp(2rem, 5vw, 4rem)', lineHeight: 1.12, letterSpacing: '-0.02em', marginBottom: 40 }}
           >
-            The Society&apos;s flagship.<br />
-            <em style={{ opacity: 0.85 }}>Every detail composed.</em>
+            {f.name}.<br />
+            <em style={{ color: 'rgba(244,239,230,0.78)' }}>Every detail composed.</em>
           </h2>
         </FadeUp>
 
         <FadeUp delay={0.12}>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-12 mb-14">
             <div style={{ display: 'flex', flexDirection: 'column', gap: 18 }}>
-              {f.description.slice(0, 2).map((p, i) => (
-                <p key={i} style={{ fontFamily: SANS, fontSize: 14, lineHeight: 1.75, color: 'rgba(169,163,154,0.82)' }}>
+              {f.description.map((p, i) => (
+                <p key={i} style={{ fontFamily: SANS, fontSize: 14, lineHeight: 1.78, color: 'rgba(183,177,166,0.88)' }}>
                   {p}
                 </p>
               ))}
             </div>
-            <div style={{ display: 'flex', flexDirection: 'column', gap: 0 }}>
-              {specs.map(([k, v]) => (
+
+            {/* Spec table — elevated surface */}
+            <div
+              style={{
+                background: 'rgba(22,12,36,0.55)',
+                border: '1px solid rgba(212,175,55,0.12)',
+                padding: '8px 0',
+              }}
+            >
+              {specs.map(([k, v], i, arr) => (
                 <div
                   key={k}
-                  style={{ display: 'flex', alignItems: 'baseline', gap: 16, padding: '14px 0', borderBottom: '1px solid rgba(30,12,44,0.6)' }}
+                  style={{
+                    display: 'flex', alignItems: 'baseline', gap: 16,
+                    padding: '13px 24px',
+                    borderBottom: i < arr.length - 1 ? '1px solid rgba(212,175,55,0.07)' : 'none',
+                  }}
                 >
-                  <span style={{ fontFamily: SANS, fontSize: 9, letterSpacing: '0.2em', textTransform: 'uppercase', color: 'rgba(127,122,115,0.6)', width: 72, flexShrink: 0 }}>
+                  <span style={{ fontFamily: SANS, fontSize: 9, letterSpacing: '0.2em', textTransform: 'uppercase', color: 'rgba(127,122,115,0.55)', width: 68, flexShrink: 0 }}>
                     {k}
                   </span>
-                  <span style={{ fontFamily: SANS, fontSize: 13, color: 'rgba(169,163,154,0.8)' }}>{v}</span>
+                  <span style={{ fontFamily: SANS, fontSize: 13, color: 'rgba(183,177,166,0.82)' }}>{v}</span>
                 </div>
               ))}
             </div>
           </div>
+
           <Link href="/formats" style={{ fontFamily: SANS, fontSize: 9, letterSpacing: '0.22em', textTransform: 'uppercase', color: 'rgba(169,163,154,0.6)', transition: 'color 0.2s' }} className="hover:text-bone">
             All formats →
           </Link>
@@ -189,8 +229,8 @@ function FormatsGlimpse() {
           </div>
 
           <div style={{ textAlign: 'center', marginTop: 32 }}>
-            <Link href="/formats" style={{ fontFamily: SANS, fontSize: 9, letterSpacing: '0.22em', textTransform: 'uppercase', color: 'rgba(169,163,154,0.6)', transition: 'color 0.2s' }} className="hover:text-bone">
-              Full format guide →
+            <Link href="/experience" style={{ fontFamily: SANS, fontSize: 9, letterSpacing: '0.22em', textTransform: 'uppercase', color: 'rgba(169,163,154,0.6)', transition: 'color 0.2s' }} className="hover:text-bone">
+              View the experience →
             </Link>
           </div>
         </FadeUp>

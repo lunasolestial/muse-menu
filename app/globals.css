@@ -94,69 +94,107 @@ select option:hover {
   animation-delay: 3s;
 }
 
-/* ── Standard CTA button — "Request consideration" everywhere ────────────────── */
-.btn-consideration {
+/* ── CTA button shared foundation ────────────────────────────────────────────── */
+.btn-consideration,
+.btn-gold {
   position: relative;
   overflow: hidden;
   font-family: var(--font-dm-sans), system-ui, sans-serif;
   font-size: 10px;
   letter-spacing: 0.26em;
   text-transform: uppercase;
-  color: rgba(244,239,230,0.88);
   border: 1px solid rgba(212,175,55,0.26);
   padding: 13px 34px;
   display: inline-block;
   text-decoration: none;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+  user-select: none;
   transition:
-    border-color 0.32s cubic-bezier(0.4, 0, 0.2, 1),
-    color        0.25s cubic-bezier(0.4, 0, 0.2, 1),
-    background   0.32s cubic-bezier(0.4, 0, 0.2, 1),
-    box-shadow   0.32s cubic-bezier(0.4, 0, 0.2, 1),
-    transform    0.2s  cubic-bezier(0.34, 1.56, 0.64, 1);
+    border-color 0.28s cubic-bezier(0.4, 0, 0.2, 1),
+    color        0.22s cubic-bezier(0.4, 0, 0.2, 1),
+    background   0.28s cubic-bezier(0.4, 0, 0.2, 1),
+    box-shadow   0.28s cubic-bezier(0.4, 0, 0.2, 1),
+    transform    0.18s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
-/* shimmer sweep — diagonal gold highlight that crosses on hover */
-.btn-consideration::before {
+/* Shimmer sweep — diagonal gold highlight crosses on hover */
+.btn-consideration::before,
+.btn-gold::before {
   content: '';
   position: absolute;
-  top: 0; left: -120%;
-  width: 80%; height: 100%;
+  top: 0; left: -130%;
+  width: 75%; height: 100%;
   background: linear-gradient(
     105deg,
-    transparent 20%,
-    rgba(212,175,55,0.07) 50%,
-    transparent 80%
+    transparent 15%,
+    rgba(212,175,55,0.11) 50%,
+    transparent 85%
   );
-  transition: left 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: left 0.55s cubic-bezier(0.4, 0, 0.2, 1);
   pointer-events: none;
 }
 
-.btn-consideration:hover::before {
-  left: 140%;
+/* ── Standard CTA — bone text ────────────────────────────────────────────────── */
+.btn-consideration {
+  color: rgba(244,239,230,0.88);
 }
 
+.btn-consideration:hover::before { left: 140%; }
 .btn-consideration:hover {
-  border-color: rgba(212,175,55,0.58);
+  border-color: rgba(212,175,55,0.62);
   color: #FFF9F0;
-  background-color: rgba(212,175,55,0.05);
-  transform: translateY(-1.5px);
+  background-color: rgba(212,175,55,0.06);
+  transform: translateY(-2px);
   box-shadow:
-    0 0 0 1px rgba(212,175,55,0.08),
-    0 4px 22px rgba(212,175,55,0.10),
-    0 8px 40px rgba(212,175,55,0.04);
+    0 0 0 1px rgba(212,175,55,0.10),
+    0 6px 24px rgba(212,175,55,0.12),
+    0 12px 40px rgba(212,175,55,0.05);
 }
-
 .btn-consideration:focus-visible {
   outline: none;
-  border-color: rgba(212,175,55,0.65);
-  box-shadow: 0 0 0 2px rgba(212,175,55,0.18), 0 4px 22px rgba(212,175,55,0.10);
+  border-color: rgba(212,175,55,0.70);
+  box-shadow: 0 0 0 2px rgba(212,175,55,0.22), 0 6px 24px rgba(212,175,55,0.12);
+}
+.btn-consideration:active {
+  transform: translateY(0) scale(0.965) !important;
+  background-color: rgba(212,175,55,0.14) !important;
+  border-color: rgba(212,175,55,0.70) !important;
+  box-shadow: inset 0 1px 4px rgba(0,0,0,0.25) !important;
+  color: #FFFBF0 !important;
+  transition: transform 0.08s ease, background 0.08s ease, box-shadow 0.08s ease !important;
 }
 
-.btn-consideration:active {
-  transform: translateY(0) scale(0.982);
-  box-shadow: none;
-  background-color: rgba(212,175,55,0.09);
-  transition: transform 0.1s ease, box-shadow 0.1s ease, background 0.1s ease;
+/* ── Gold CTA variant — gold text (featured tier, etc.) ──────────────────────── */
+.btn-gold {
+  color: rgba(212,175,55,0.88);
+  border-color: rgba(212,175,55,0.42);
+}
+
+.btn-gold:hover::before { left: 140%; }
+.btn-gold:hover {
+  border-color: rgba(212,175,55,0.75);
+  color: rgba(244,225,140,0.96);
+  background-color: rgba(212,175,55,0.08);
+  transform: translateY(-2px);
+  box-shadow:
+    0 0 0 1px rgba(212,175,55,0.12),
+    0 6px 24px rgba(212,175,55,0.15),
+    0 12px 40px rgba(212,175,55,0.06);
+}
+.btn-gold:focus-visible {
+  outline: none;
+  border-color: rgba(212,175,55,0.80);
+  box-shadow: 0 0 0 2px rgba(212,175,55,0.24), 0 6px 24px rgba(212,175,55,0.14);
+}
+.btn-gold:active {
+  transform: translateY(0) scale(0.965) !important;
+  background-color: rgba(212,175,55,0.18) !important;
+  border-color: rgba(212,175,55,0.80) !important;
+  box-shadow: inset 0 1px 4px rgba(0,0,0,0.25) !important;
+  color: rgba(255,235,140,0.98) !important;
+  transition: transform 0.08s ease, background 0.08s ease, box-shadow 0.08s ease !important;
 }
 
 /* ── Desktop-only: site nav link tab enhancements ────────────────────────────── */
