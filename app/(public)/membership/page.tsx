@@ -84,13 +84,11 @@ export default function MembershipPage() {
             {TIERS.map((tier) => (
               <div
                 key={tier.name}
-                className="p-9 flex flex-col"
+                className={`p-9 flex flex-col${tier.featured ? ' tier-card-featured' : ''}`}
                 style={{
                   background: tier.featured
                     ? 'linear-gradient(180deg, rgba(42,22,54,0.18) 0%, #07080A 100%)'
                     : '#07080A',
-                  borderTop: tier.featured ? '2px solid rgba(212,175,55,0.42)' : '2px solid transparent',
-                  borderLeft: tier.featured ? '2px solid rgba(212,175,55,0.20)' : undefined,
                 }}
               >
                 <div className="mb-7">

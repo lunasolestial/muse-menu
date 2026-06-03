@@ -44,6 +44,8 @@ export default function Header({ isAuthenticated = false }: { isAuthenticated?: 
             <Link
               key={href}
               href={href}
+              className="site-nav-link"
+              data-active={pathname === href ? 'true' : undefined}
               style={{
                 fontFamily: CAPS,
                 fontSize: 9,
@@ -51,8 +53,7 @@ export default function Header({ isAuthenticated = false }: { isAuthenticated?: 
                 textTransform: 'uppercase',
                 color: pathname === href ? 'rgba(244,239,230,0.95)' : 'rgba(169,163,154,0.62)',
                 textDecoration: 'none',
-                transition: 'color 0.22s, border-color 0.22s',
-                borderBottom: pathname === href ? '1px solid rgba(214,163,74,0.55)' : '1px solid transparent',
+                transition: 'color 0.22s',
                 paddingBottom: 3,
               }}
               onMouseEnter={e => { (e.currentTarget as HTMLElement).style.color = 'rgba(244,239,230,0.92)' }}

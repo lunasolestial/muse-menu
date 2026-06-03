@@ -1,5 +1,5 @@
 'use client'
-import { useRef } from 'react'
+import { useRef, useState, useEffect } from 'react'
 import { motion, useScroll, useTransform, useSpring, type MotionValue } from 'framer-motion'
 import Image from 'next/image'
 import Link from 'next/link'
@@ -116,14 +116,23 @@ function ArchFrame({ opacity }: { opacity: MotionValue<number> }) {
 // ── Hero ──────────────────────────────────────────────────────────────────────
 export default function MuseRevealHero() {
   const containerRef = useRef<HTMLDivElement>(null)
+  const [isMobile, setIsMobile] = useState(false)
+
+  useEffect(() => {
+    const check = () => setIsMobile(window.innerWidth < 768)
+    check()
+    window.addEventListener('resize', check)
+    return () => window.removeEventListener('resize', check)
+  }, [])
 
   const { scrollYProgress } = useScroll({
     target: containerRef,
     offset: ['start start', 'end end'],
   })
 
-  // Muse drifts UPWARD on scroll (0 → -100px) with spring damping for smoothness
-  const settleYRaw = useTransform(scrollYProgress, [0, 0.44], [0, -100])
+  // Desktop: muse drifts UP (-100px) to settle into arch center
+  // Mobile: muse drifts DOWN (+35px) — arch center is lower relative to smaller screen
+  const settleYRaw = useTransform(scrollYProgress, [0, 0.44], [0, isMobile ? 35 : -100])
   const settleY    = useSpring(settleYRaw, { stiffness: 52, damping: 18, mass: 0.9 })
 
   // Arch: present at low opacity from start, fully revealed mid-scroll
@@ -202,7 +211,8 @@ export default function MuseRevealHero() {
         {/* ── MUSE ── */}
         <div style={{
           position: 'absolute',
-          top: 'calc(50vh - 42vh)',   // ~8vh from top — upper portion of viewport
+          // Mobile: push container slightly lower so muse lands in arch center after settle
+          top: isMobile ? 'calc(50vh - 36vh)' : 'calc(50vh - 42vh)',
           left: '50%', transform: 'translateX(-50%)',
           zIndex: 10, pointerEvents: 'none',
         }}>
