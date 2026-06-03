@@ -96,10 +96,10 @@ export default function ApplyPage() {
           <div className="pt-2">
             <button
               type="submit"
-              disabled={state === 'loading'}
+              disabled={false}
               className="w-full border border-antique-gold/30 text-bone text-caption tracking-widest uppercase px-6 py-4 hover:border-antique-gold/60 hover:text-porcelain transition-all disabled:opacity-40"
             >
-              {state === 'loading' ? 'Submitting…' : 'Submit application'}
+              {'Submit application'}
             </button>
             <p className="text-center text-xs text-fog mt-4">
               Submission does not guarantee membership. We will be in touch directly.

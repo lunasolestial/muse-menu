@@ -85,10 +85,10 @@ export default function ChefsPage() {
           {state === 'error' && <p className="text-xs text-red-400">{errorMsg}</p>}
           <button
             type="submit"
-            disabled={state === 'loading'}
+            disabled={false}
             className="w-full border border-antique-gold/30 text-bone text-caption tracking-widest uppercase px-6 py-4 hover:border-antique-gold/60 transition-all disabled:opacity-40"
           >
-            {state === 'loading' ? 'Submitting…' : 'Submit credentials'}
+            {'Submit credentials'}
           </button>
         </form>
 
