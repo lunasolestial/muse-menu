@@ -172,6 +172,19 @@ export default function ExperiencePage() {
               <Link href="/membership" className="btn-consideration">
                 Request consideration
               </Link>
+              <p style={{ marginTop: 28 }}>
+                <Link
+                  href="/gallery"
+                  style={{
+                    fontFamily: SANS, fontSize: 9, letterSpacing: '0.22em',
+                    textTransform: 'uppercase', color: 'rgba(169,163,154,0.55)',
+                    textDecoration: 'none', transition: 'color 0.2s',
+                  }}
+                  className="hover:text-bone"
+                >
+                  Glimpses from past evenings →
+                </Link>
+              </p>
             </div>
           </div>
         </div>
