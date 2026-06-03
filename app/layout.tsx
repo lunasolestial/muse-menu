@@ -43,11 +43,11 @@ export const metadata: Metadata = {
     title: 'Muse & Menu Society',
     description: 'Where meals meet meaning.',
     type: 'website',
-    images: [{ url: '/share-preview.png', width: 1200, height: 630, alt: 'Muse & Menu Society' }],
+    images: [{ url: '/share-preview-v2.png', width: 1200, height: 630, alt: 'Muse & Menu Society' }],
   },
   twitter: {
     card: 'summary_large_image',
-    images: ['/share-preview.png'],
+    images: ['/share-preview-v2.png'],
   },
   other: { 'theme-color': '#07080A' },
 }
