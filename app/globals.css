@@ -272,6 +272,16 @@ select:focus-visible {
   box-shadow: 0 0 0 1px rgba(212,175,55,0.15);
 }
 
+/* ── Footer atmospheric orbs — tighter blur on mobile, wider on desktop ─────── */
+.footer-orb-1 { filter: blur(22px); }
+.footer-orb-2 { filter: blur(24px); }
+.footer-orb-3 { filter: blur(20px); }
+@media (min-width: 768px) {
+  .footer-orb-1 { filter: blur(52px); }
+  .footer-orb-2 { filter: blur(60px); }
+  .footer-orb-3 { filter: blur(56px); }
+}
+
 /* ── Midnight Plum accent utilities ─────────────────────────────────────────── */
 .section-plum {
   background: linear-gradient(180deg, rgba(42,22,54,0.22) 0%, transparent 100%);

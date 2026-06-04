@@ -12,14 +12,17 @@ function AtmosphericOrb({
   style,
   animate,
   transition,
+  className,
 }: {
   style: React.CSSProperties
   animate: Record<string, number[]>
   transition: Record<string, unknown>
+  className?: string
 }) {
   return (
     <motion.div
       aria-hidden="true"
+      className={className}
       style={{ position: 'absolute', pointerEvents: 'none', ...style }}
       animate={animate}
       transition={transition}
@@ -34,20 +37,20 @@ export default function Footer() {
       {/* ── Atmospheric glow wrapper — tagline + nav grid ── */}
       <div style={{ position: 'relative', overflow: 'hidden' }}>
 
-        {/* Midnight plum orb — large, upper-left, slowest drift */}
+        {/* Midnight plum orb — large, upper-left */}
         <AtmosphericOrb
+          className="footer-orb-1"
           style={{
-            top: '-20%', left: '-12%',
-            width: '58%', height: '130%',
-            background: 'radial-gradient(ellipse 55% 60% at 42% 50%, rgba(30,12,44,0.68) 0%, rgba(18,7,30,0.28) 55%, transparent 75%)',
-            filter: 'blur(52px)',
+            top: '-10%', left: '-8%',
+            width: 'max(260px, 62%)', height: 'max(280px, 140%)',
+            background: 'radial-gradient(ellipse 58% 62% at 42% 50%, rgba(42,14,62,0.92) 0%, rgba(24,8,40,0.50) 48%, transparent 72%)',
             zIndex: 0,
           }}
           animate={{
             x: [0, 28, -18, 10, 0],
             y: [0, -18, 26, -8, 0],
             scale: [1, 1.07, 0.96, 1.04, 1],
-            opacity: [0.68, 0.82, 0.58, 0.74, 0.68],
+            opacity: [0.92, 1, 0.80, 0.90, 0.92],
           }}
           transition={{
             duration: 32,
@@ -57,20 +60,20 @@ export default function Footer() {
           }}
         />
 
-        {/* Deep aubergine orb — medium, center-right */}
+        {/* Deep aubergine orb — center-right */}
         <AtmosphericOrb
+          className="footer-orb-2"
           style={{
-            top: '10%', right: '-10%',
-            width: '48%', height: '90%',
-            background: 'radial-gradient(ellipse 50% 55% at 58% 45%, rgba(58,10,76,0.54) 0%, rgba(38,7,52,0.22) 50%, transparent 72%)',
-            filter: 'blur(60px)',
+            top: '5%', right: '-8%',
+            width: 'max(220px, 52%)', height: 'max(240px, 100%)',
+            background: 'radial-gradient(ellipse 52% 58% at 58% 45%, rgba(74,12,96,0.80) 0%, rgba(48,8,66,0.38) 48%, transparent 70%)',
             zIndex: 0,
           }}
           animate={{
             x: [0, -20, 14, -6, 0],
             y: [0, 22, -14, 18, 0],
             scale: [1, 0.93, 1.09, 0.97, 1],
-            opacity: [0.54, 0.66, 0.44, 0.60, 0.54],
+            opacity: [0.80, 0.92, 0.68, 0.84, 0.80],
           }}
           transition={{
             duration: 27,
@@ -81,20 +84,20 @@ export default function Footer() {
           }}
         />
 
-        {/* Soft mulberry orb — smaller, lower-center */}
+        {/* Soft mulberry orb — lower-center */}
         <AtmosphericOrb
+          className="footer-orb-3"
           style={{
-            bottom: '-10%', left: '38%',
-            width: '36%', height: '65%',
-            background: 'radial-gradient(ellipse 48% 52% at 50% 58%, rgba(92,30,74,0.44) 0%, rgba(62,18,50,0.18) 50%, transparent 72%)',
-            filter: 'blur(56px)',
+            bottom: '-5%', left: '30%',
+            width: 'max(200px, 42%)', height: 'max(200px, 72%)',
+            background: 'radial-gradient(ellipse 50% 54% at 50% 58%, rgba(110,34,88,0.72) 0%, rgba(76,20,60,0.34) 48%, transparent 70%)',
             zIndex: 0,
           }}
           animate={{
             x: [0, 16, -24, 8, 0],
             y: [0, -12, 10, -20, 0],
             scale: [1, 1.05, 0.94, 1.08, 1],
-            opacity: [0.44, 0.34, 0.56, 0.38, 0.44],
+            opacity: [0.72, 0.58, 0.84, 0.64, 0.72],
           }}
           transition={{
             duration: 36,
